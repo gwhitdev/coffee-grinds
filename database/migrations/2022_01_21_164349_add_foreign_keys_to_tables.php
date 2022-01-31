@@ -51,30 +51,37 @@ class AddForeignKeysToTables extends Migration
     {
         Schema::table('drinking_events', function (Blueprint $table) {
             $table->dropForeign(['coffee_type_id']);
+            $table->dropColumn('coffee_type_id');
         });
 
         Schema::table('drinking_events', function (Blueprint $table) {
             $table->dropForeign(['supplier_id']);
+            $table->dropColumn('supplier_id');
         });
 
         Schema::table('drinking_events', function (Blueprint $table) {
             $table->dropForeign(['brand_id']);
+            $table->dropColumn('brand_id');
         });
 
         Schema::table('drinking_events', function (Blueprint $table) {
             $table->dropForeign(['drink_type_id']);
+            $table->dropColumn('drink_type_id');
         });
 
         Schema::table('drinking_events', function (Blueprint $table) {
             $table->dropForeign(['grinding_id']);
+            $table->dropColumn('grinding_id');
         });
 
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['drinking_event_id']);
+            $table->dropColumn('drinking_event_id');
         });
 
         Schema::table('drinking_events', function (Blueprint $table) {
             $table->dropForeign(['drinking_location_id']);
+            $table->dropColumn('drinking_location_id');
         });
     }
 }

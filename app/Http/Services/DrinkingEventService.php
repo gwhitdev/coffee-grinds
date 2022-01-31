@@ -30,4 +30,5 @@ class DrinkingEventService
             return false;
         }
     }
+
 }

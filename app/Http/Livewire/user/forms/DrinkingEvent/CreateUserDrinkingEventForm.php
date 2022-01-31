@@ -1,22 +1,20 @@
 <?php
 
-namespace App\Http\Livewire\Manage\Forms\Events;
+namespace App\Http\Livewire\User\Forms\DrinkingEvent;
 
 use App\Http\Services\DrinkingEventService;
+use App\Models\Brand;
+use App\Models\CoffeeType;
 use App\Models\DrinkingEvent;
 use App\Models\DrinkingLocation;
 use App\Models\DrinkType;
-use App\Models\Supplier;
-use Carbon\Doctrine\DateTimeType;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
-use App\Models\CoffeeType;
-use App\Models\Brand;
 use Auth;
-class CreateDrinkingEventForm extends Component
+
+class CreateUserDrinkingEventForm extends Component
 {
     public DrinkingEvent $drinkingEvent;
-
     public iterable $suppliers;
     public iterable $brands;
     public iterable $drinkTypes;
@@ -54,8 +52,9 @@ class CreateDrinkingEventForm extends Component
         $this->suppliers = Auth::user()->suppliers;
         //var_dump($this->suppliers);
     }
+
     public function render()
     {
-        return view('livewire.manage.forms.events.create-drinking-event-form');
+        return view('livewire.user.forms.drinking-event.create-user-drinking-event-form');
     }
 }

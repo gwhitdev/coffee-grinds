@@ -6,6 +6,12 @@ use Livewire\Component;
 
 class UsersPage extends Component
 {
+
+
+    public function mount()
+    {
+
+    }
     public function render()
     {
         return view('livewire.manage.pages.users.users-page');

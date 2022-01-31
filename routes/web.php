@@ -29,11 +29,17 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::prefix('manage')->middleware(['auth:sanctum'])->group(function () {
+Route::prefix('user')->middleware(['auth:sanctum','can:view,App\Models\DrinkingEvent'])->group(function () {
+   Route::get('/dashboard/drinkings', \App\Http\Livewire\User\Pages\DrinkingEvent\UserDrinkingEventPage::class)->name('user.drinkingEvent.index');
+   Route::get('/dashboard/suppliers', \App\Http\Livewire\User\Pages\Supplier\UserSupplierPage::class)->name('user.supplier.index');
+
+});
+
+Route::prefix('manage')->middleware(['auth:sanctum','isAdmin'])->group(function () {
     Route::get('/', \App\Http\Livewire\Manage\Pages\Dashboard\AdminPanel::class)->name('admin.dash');
 
     Route::get('/brands', \App\Http\Livewire\Manage\Pages\Brand\BrandPage::class)->name('brands.index');
-    Route::delete('/brands/{id}/delete', [\App\Http\Controllers\BrandController::class, 'brands.delete']);
+    Route::delete('/brands/{id}/delete', [\App\Http\Controllers\BrandController::class, 'delete'])->name('brands.delete');
 
     Route::get('/coffee-types', \App\Http\Livewire\Manage\Pages\CoffeeTypes\CoffeeTypesPage::class)->name('coffeeTypes.index');
     Route::delete('/coffee-types/{id}/delete', [\App\Http\Controllers\CoffeeTypesController::class, 'delete'])->name('coffeeTypes.delete');
@@ -50,9 +56,11 @@ Route::prefix('manage')->middleware(['auth:sanctum'])->group(function () {
     Route::delete('/suppliers/{id}/delete', [\App\Http\Controllers\SupplierController::class, 'delete'])->name('suppliers.delete');
     Route::post('/suppliers/{id}/edit', [\App\Http\Controllers\SupplierController::class, 'edit'])->name('suppliers.edit');
 
-    Route::get('/users', \App\Http\Livewire\Manage\Pages\Users\UsersPage::class)->name('users.index');
-    Route::delete('/users/{id}/delete', [\App\Http\Controllers\UserController::class, 'delete'])->name('users.delete');
-    Route::post('/users/{id}/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
+    Route::get('/users', \App\Http\Livewire\Manage\Pages\Users\UsersPage::class)->name('manage.users.index');
+    Route::delete('/users/{id}/delete', [\App\Http\Controllers\UserController::class, 'delete'])->name('manage.users.delete');
+    Route::get('/users/{user}/edit', \App\Http\Livewire\Manage\Pages\Users\EditUserPage::class)->name('manage.users.edit');
+    //Route::post('/users/{id}/edit', [\App\Http\Controllers\UserController::class, 'update'])->name('users.manage.update');
+
 
     Route::get('/drink-types', \App\Http\Livewire\Manage\Pages\DrinkTypes\DrinkTypesPage::class)->name('drinkTypes.index');
     Route::delete('/drink-types/{id}/delete', [\App\Http\Controllers\DrinkTypesController::class, 'delete'])->name('drinkTypes.delete');

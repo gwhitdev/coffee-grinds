@@ -13,6 +13,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridEloquent;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\Rules\Rule;
+use App\Models\Role;
 
 final class UsersTable extends PowerGridComponent
 {
@@ -80,6 +81,10 @@ final class UsersTable extends PowerGridComponent
             ->addColumn('id')
             ->addColumn('name')
             ->addColumn('email')
+            ->addColumn('role', function (User $model) {
+                return $model->role()->first()->name ?? 'none';
+
+            })
             ->addColumn('created_at_formatted', function(User $model) {
                 return Carbon::parse($model->created_at)->format('d/m/Y H:i:s');
             })
@@ -125,6 +130,12 @@ final class UsersTable extends PowerGridComponent
                 ->makeInputText(),
 
             Column::add()
+                ->title('ROLE')
+                ->field('role')
+                ->sortable()
+                ->makeInputSelect(Role::all(),'name','role_id'),
+
+            Column::add()
                 ->title('CREATED AT')
                 ->field('created_at_formatted', 'created_at')
                 ->searchable()
@@ -156,23 +167,25 @@ final class UsersTable extends PowerGridComponent
      * @return array<int, \PowerComponents\LivewirePowerGrid\Button>
      */
 
-    /*
+
     public function actions(): array
     {
        return [
            Button::add('edit')
+               ->target('_self')
                ->caption('Edit')
                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('user.edit', ['user' => 'id']),
+               ->route('manage.users.edit', ['user' => 'id']),
 
            Button::add('destroy')
+               ->target('_self')
                ->caption('Delete')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('user.destroy', ['user' => 'id'])
+               ->class('bg-red-200 cursor-pointer text-black px-3 py-2 m-1 rounded text-sm')
+               ->route('manage.users.delete', ['id' => 'id'])
                ->method('delete')
         ];
     }
-    */
+
 
     /*
     |--------------------------------------------------------------------------

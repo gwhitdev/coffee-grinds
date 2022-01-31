@@ -172,8 +172,8 @@ use PowerComponents\LivewirePowerGrid\Rules\Rule;
                ->target('_self')
                ->caption('Delete')
                ->class('bg-red-500 cursor-pointer hover:underline text-black px-3 py-2 m-1 rounded text-sm')
-               ->route('brand.destroy', ['brand' => 'id'])
-               ->method('get'),
+               ->route('brands.delete', ['id' => 'id'])
+               ->method('delete'),
         ];
     }
 

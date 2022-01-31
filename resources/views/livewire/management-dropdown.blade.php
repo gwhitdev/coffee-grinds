@@ -29,7 +29,7 @@
             <x-jet-dropdown-link href="{{ route('suppliers.index') }}">
                 {{ __('Suppliers') }}
             </x-jet-dropdown-link>
-            <x-jet-dropdown-link href="{{ route('users.index') }}">
+            <x-jet-dropdown-link href="{{ route('manage.users.index') }}">
                 {{ __('Users') }}
             </x-jet-dropdown-link>
             <x-jet-dropdown-link href="{{ route('drinkTypes.index') }}">

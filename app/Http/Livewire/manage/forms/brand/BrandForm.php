@@ -10,8 +10,12 @@ class BrandForm extends Component
 {
     public $name;
 
+    protected $rules = [
+        'name' => 'required|max:12'
+    ];
     public function create(BrandService $brandService)
     {
+        $this->validate();
         $newBrand = $brandService->create($this->name);
         error_log($newBrand);
         error_log('trying to send event');

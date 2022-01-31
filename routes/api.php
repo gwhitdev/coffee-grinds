@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::prefix('manage')->group(function () {
+    Route::put('/user/{id}/role', [\App\Http\Controllers\ApiController::class, 'updateUserRole'])->name('api.user.role.update');
+});

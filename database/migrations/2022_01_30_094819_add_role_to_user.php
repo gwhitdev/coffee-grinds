@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUserToSuppliers extends Migration
+class AddRoleToUser extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddUserToSuppliers extends Migration
      */
     public function up()
     {
-        Schema::table('suppliers', function (Blueprint $table) {
-            $table->foreignId('user_id')->nullable(false)->constrained()->cascadeOnDelete();
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('role_id')->nullable()->constrained();
         });
     }
 
@@ -25,9 +25,9 @@ class AddUserToSuppliers extends Migration
      */
     public function down()
     {
-        Schema::table('suppliers', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn(['user_id']);
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['role_id']);
+            $table->dropColumn('role_id');
         });
     }
 }

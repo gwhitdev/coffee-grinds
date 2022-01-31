@@ -50,7 +50,7 @@ class DrinkingEvent extends Model
     }
 
 
-    public function atHomeOrLocation()
+    public function atHomeOrLocation() : string
     {
         if($this->drank_at_home === 1)
         {

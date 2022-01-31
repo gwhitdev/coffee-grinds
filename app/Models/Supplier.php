@@ -19,4 +19,9 @@ class Supplier extends Model
     {
         return $this->belongsToMany(DrinkingEvent::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
 }

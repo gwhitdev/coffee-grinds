@@ -14,6 +14,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridEloquent;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\Rules\Rule;
+use App\Models\User;
 
 final class DrinkingEventsTable extends PowerGridComponent
 {
@@ -81,6 +82,10 @@ final class DrinkingEventsTable extends PowerGridComponent
             ],
             'supplier' => [
                 'reference',
+            ],
+            'user' => [
+                'user_id',
+                'name'
             ]
         ];
     }
@@ -100,6 +105,9 @@ final class DrinkingEventsTable extends PowerGridComponent
             ->addColumn('event_date_time_formatted', function(DrinkingEvent $model) {
                 return Carbon::parse($model->event_date_time)->format('d/m/Y H:i:s');
             })
+            ->addColumn('user_id', function (DrinkingEvent $model) {
+                return $model->user()->first()->name;
+            })
             ->addColumn('rating')
             ->addColumn('drinking_location_id', function (DrinkingEvent $model) {
                 error_log($model->atHomeOrLocation());
@@ -108,11 +116,7 @@ final class DrinkingEventsTable extends PowerGridComponent
             })
             ->addColumn('comments')
             ->addColumn('drank_at_home', function (DrinkingEvent $model) {
-                if ($model->atHomeOrLocation() === 'At home')
-                {
-                    return true;
-                }
-                return false;
+                return $model->atHomeOrLocation() === 'At home';
             })
             ->addColumn('coffee_type_id', function (DrinkingEvent $model) {
                 return $model->coffeeType()->first()->description;
@@ -154,6 +158,10 @@ final class DrinkingEventsTable extends PowerGridComponent
                 ->field('id')
                 ->makeInputRange(),
 
+            Column::add()
+                ->title('USER')
+                ->field('user_id')
+                ->makeInputSelect(User::all(),'name','user_id'),
             Column::add()
                 ->title('EVENT DATE TIME')
                 ->field('event_date_time_formatted', 'event_date_time')

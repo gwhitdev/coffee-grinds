@@ -63,4 +63,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(DrinkingEvent::class);
     }
+
+    public function suppliers()
+    {
+        return $this->hasMany(Supplier::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }
