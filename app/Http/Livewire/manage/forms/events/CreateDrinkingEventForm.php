@@ -25,11 +25,11 @@ class CreateDrinkingEventForm extends Component
 
     protected array $rules = [
         'drinkingEvent.coffee_type_id' => 'required',
-        'drinkingEvent.drinking_location_id' => 'int',
-        'drinkingEvent.drink_type_id' => 'int',
-        'drinkingEvent.supplier_id' => 'int',
+        'drinkingEvent.drinking_location_id' => 'max:3',
+        'drinkingEvent.drink_type_id' => 'int|required',
+        'drinkingEvent.supplier_id' => 'int|required',
         'drinkingEvent.drank_at_home' => 'required|bool',
-        'drinkingEvent.brand_id' => 'int',
+        'drinkingEvent.brand_id' => 'int|required',
         'drinkingEvent.comments' => 'string',
         'drinkingEvent.rating' => 'int',
         'drinkingEvent.event_date_time' => 'required'
@@ -37,16 +37,23 @@ class CreateDrinkingEventForm extends Component
 
     public function create(DrinkingEventService $drinkingEventService)
     {
+        $this->validate();
         $newEvent = $this->drinkingEvent;
         $newEvent->user_id = Auth::user()->id;
         $newEvent->event_date_time = Carbon::parse($this->drinkingEvent->event_date_time);
         $created = $drinkingEventService->create($newEvent);
-        if ($created) $this->emit('createdDrinkingEvent');
+        if ($created)
+        {
+            $this->emit('createdDrinkingEvent');
+            $this->drinkingEvent = new DrinkingEvent();
+        }
     }
 
     public function mount()
     {
         $this->drinkingEvent = new DrinkingEvent();
+        //$this->drinkingEvent->drinking_location_id = 0;
+        $this->drinkingEvent->rating = 0;
         $this->coffeeTypes = CoffeeType::all();
         $this->locations = DrinkingLocation::all();
         $this->drinkTypes = DrinkType::all();
